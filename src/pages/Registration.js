@@ -107,9 +107,9 @@ const Registration = () => {
           console.log(user);
           setLoading(false);
           setSuccessMsg("account will loged successfully");
-          setTimeout(() => {
+          // setTimeout(() => {
             navigation("/signin");
-          }, 3000);
+          // }, );
           // ...
         })
         .catch((error) => {
@@ -133,6 +133,9 @@ const Registration = () => {
 
   return (
     <>
+    {/* {
+      loading && 
+    } */}
       <div className="w-full">
         <div className="w-full bg-gray-100 pb-10">
           <form className="w-[370px] mx-auto flex flex-col items-center">

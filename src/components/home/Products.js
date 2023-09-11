@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import StartIcon from "@mui/icons-material/Star";
 import ApiIcon from "@mui/icons-material/Api";
@@ -9,9 +9,20 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/amazonSlice";
 
 const Products = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const data = useLoaderData();
   const productData = data.data;
+  // ============================================
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
+
+  const handleAddToCart = (item) => {
+    setSelectedProduct(item);
+    setSelectedQuantity("");
+  };
+
+  //==========================================================
+
   return (
     <div className="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-10 xl:gap-4 px-4">
       {" "}
@@ -38,19 +49,56 @@ const Products = () => {
                 </span>
               </li>
               <li className="productLi">
-                Add to Cart
+                {/* ____________________________________________ */}
+                {selectedProduct === item ? (
+                  <div className="flex items-center">
+                    <button
+                      className="border bg-gray-100 px-2 py-1 rounded-l"
+                      onClick={() => {
+                        // Decrease quantity logic here
+                        setSelectedQuantity(selectedQuantity - 1);
+                      }}
+                    >
+                      -
+                    </button>
+                    <span className="px-2 py-1">{selectedQuantity}</span>
+                    <button
+                      className="border bg-gray-100 px-2 py-1 rounded-r"
+                      onClick={() => {
+                        // Increase quantity logic here
+                        setSelectedQuantity(selectedQuantity + 1);
+                      }}
+                    >
+                      +
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => handleAddToCart(item)}
+                    className="w-full font-titleFont font-medium text-base bg-gradient-to-tr from-yellow-400 to-yellow-200 border hover:from-yellow-300 hover:to-yellow-400 border-yellow-500 hover:border-yellow-700 active:bg-gradient-to-bl active:from-yellow-400 active:to-yellow-500 duration-200 py-1.5 rounded-md mt-3"
+                  >
+                    Add to Cart{" "}
+                  </button>
+                )}
+
+                {/* Add to Cart */}
                 <span>
                   <ShoppingCartIcon />
                 </span>
               </li>
-              <li className="productLi">View Details
-              <span>
+
+              <li className="productLi">
+                View Details
+                <span>
                   <ArrowCircleRightIcon />
-                </span></li>
-              <li className="productLi">Add to WishList
-              <span>
+                </span>
+              </li>
+              <li className="productLi">
+                Add to WishList
+                <span>
                   <FavoriteIcon />
-                </span></li>
+                </span>
+              </li>
             </ul>
           </div>
           <div className="px-4 z-10 bg-white">
@@ -72,7 +120,8 @@ const Products = () => {
                 <StartIcon />
               </div>
             </div>
-            <button onClick={() =>
+            <button
+              onClick={() =>
                 dispatch(
                   addToCart({
                     id: item.id,
@@ -84,7 +133,9 @@ const Products = () => {
                     quantity: 1,
                   })
                 )
-              } className="w-full font-titleFont font-medium text-base bg-gradient-to-tr from-yellow-400 to-yellow-200 border hover:from-yellow-300 hover:to-yellow-400 border-yellow-500 hover:border-yellow-700 active:bg-gradient-to-bl active:from-yellow-400 active:to-yellow-500 duration-200 py-1.5 rounded-md mt-3">
+              }
+              className="w-full font-titleFont font-medium text-base bg-gradient-to-tr from-yellow-400 to-yellow-200 border hover:from-yellow-300 hover:to-yellow-400 border-yellow-500 hover:border-yellow-700 active:bg-gradient-to-bl active:from-yellow-400 active:to-yellow-500 duration-200 py-1.5 rounded-md mt-3"
+            >
               Add To Cart{" "}
             </button>
           </div>
